@@ -7,6 +7,28 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { BondPage } from '../pages/bond/bond';
 import { LoginPage } from '../pages/login/login';
+import { ListPage } from '../pages/list/list';
+import { User } from './user.service';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { Storage } from '@ionic/storage';
+
+import {
+    defaultFirebase,
+    FIREBASE_PROVIDERS
+} from 'angularfire2';
+
+const COMMON_CONFIG = {
+    apiKey: "AIzaSyBG9SdyCTKlowUnCN4F47rb8DQtXocf1Ro",
+    authDomain: "bailout-38e42.firebaseapp.com",
+    databaseURL: "https://bailout-38e42.firebaseio.com",
+    storageBucket: "bailout-38e42.appspot.com",
+    messagingSenderId: "94440734373"
+};
+
+const myFirebaseAuthConfig = {
+  provider: AuthProviders.Password,
+  method: AuthMethods.Password
+}
 
 @NgModule({
   declarations: [
@@ -16,10 +38,12 @@ import { LoginPage } from '../pages/login/login';
     HomePage,
     TabsPage,
     BondPage,
-    LoginPage
+    LoginPage,
+    ListPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(COMMON_CONFIG, myFirebaseAuthConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -29,8 +53,14 @@ import { LoginPage } from '../pages/login/login';
     HomePage,
     TabsPage,
     BondPage,
-    LoginPage
+    LoginPage,
+    ListPage
   ],
-  providers: []
+  providers: [
+    FIREBASE_PROVIDERS,
+    defaultFirebase(COMMON_CONFIG),
+    User,
+    Storage
+  ]
 })
 export class AppModule {}

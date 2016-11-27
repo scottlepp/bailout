@@ -5,44 +5,59 @@
 </ion-header>
 
 <ion-content>
-
+<form form [formGroup]="bondForm" (ngSubmit)="onSubmit(bondForm.value)">
   <ion-list>
 
     <ion-item>
       <ion-label fixed>Power #</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.power" [(ngModel)]="bond.power"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label fixed>Defendent</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label fixed>Defendant</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.defendant" [(ngModel)]="bond.defendant"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label fixed>Defendent</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label fixed>Phone #</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.phone" [(ngModel)]="bond.phone"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label fixed>Defendent</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label fixed>Bond $</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.amount" [(ngModel)]="bond.amount"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label fixed>Defendent</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label fixed>County</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.county" [(ngModel)]="bond.county"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label fixed>Defendent</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label fixed>Source</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.source" [(ngModel)]="bond.source"></ion-input>
     </ion-item>
 
   </ion-list>
 
-  <div padding>
-    <button ion-button color="primary" block>Submit</button>
-  </div>
+  <ion-row *ngIf="!editing">
+    <ion-col>
+    <button type="submit" ion-button color="primary" [disabled]="!bondForm.valid" block>Save</button>
+    </ion-col>
+  </ion-row>
 
+  <ion-row *ngIf="editing">
+    <ion-col>
+    <button type="submit" ion-button color="primary" [disabled]="!bondForm.valid" block>Save</button>
+    </ion-col>
+    <ion-col>
+    <button type="button" ion-button color="dark" outline block (click)="close($event)">Close</button>
+    </ion-col>
+  </ion-row>
 
+  <!--<div padding *ngIf="editing">
+    <button ion-button color="dark" outline block>Close</button>
+  </div>-->
+
+</form>
 </ion-content>

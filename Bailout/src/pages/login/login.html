@@ -5,24 +5,28 @@
 </ion-header>
 
 <ion-content>
+  <form form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
+    <ion-list>
 
-  <ion-list>
+      <ion-item>
+        <ion-label fixed>Email</ion-label>
+        <ion-input type="text" [formControl]="authForm.controls['username']" [(ngModel)]="username"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label fixed>Username</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" [formControl]="authForm.controls['password']" [(ngModel)]="password"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label fixed>Password</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label fixed>Name</ion-label>
+        <ion-input type="text" [formControl]="authForm.controls['name']" [(ngModel)]="name"></ion-input>
+      </ion-item>
 
-  </ion-list>
+    </ion-list>
 
-  <div padding>
-    <button ion-button color="primary" block>Sign In</button>
-  </div>
-
-
+    <div padding>
+      <button type="submit" [disabled]="!authForm.valid" ion-button color="primary" block>Sign In</button>
+    </div>
+  </form>
 </ion-content>
