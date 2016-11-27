@@ -15,8 +15,8 @@ import { Subject } from 'rxjs/Subject';
 export class LoginPage {
 
   authForm: FormGroup;
-  username: string = 'scott.lepper@gmail.com';
-  password: string = 'gunlake123';
+  username: string;
+  password: string;
   name: string;
   users: any;
 
