@@ -3,10 +3,8 @@ import { NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AngularFire } from 'angularfire2';
 import { FormBuilder,  FormGroup, Validators, FormControl } from '@angular/forms';
-import { ListPage } from '../list/list';
 import { TabsPage } from '../tabs/tabs';
 import { ToastController } from 'ionic-angular';
-import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'page-login',
@@ -15,8 +13,8 @@ import { Subject } from 'rxjs/Subject';
 export class LoginPage {
 
   authForm: FormGroup;
-  username: string = 'scott.lepper@gmail.com';
-  password: string = 'gunlake123';
+  username: string;
+  password: string;
   name: string;
   users: any;
 
@@ -36,7 +34,6 @@ export class LoginPage {
 
   login() {
     this.af.auth.login({ email: this.username, password: this.password }).then(result => {
-      let userSubject = new Subject();
       this.users = this.af.database.list('/users', {
         query: {
           orderByChild: 'name',
