@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
 import { User } from '../../app/user.service';
 import { Storage } from '@ionic/storage';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'page-bond',
@@ -41,6 +42,9 @@ export class BondPage {
 
   onSubmit(value: string): void { 
     if(this.bondForm.valid) {    
+      this.bond.localTime = new Date().getTime();
+      this.bond.dateCreated = firebase.database['ServerValue']['TIMESTAMP'];
+      
       if (!this.user.offline) {
         let bonds = this.af.database.list('/bonds');
         if (this.editing) {

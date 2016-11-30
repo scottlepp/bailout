@@ -21766,3 +21766,7 @@ page-list .search-button {
   order: 1;
   -webkit-order: 1;
 }
+
+page-list .timestamp {
+  font-size: 13px;
+}

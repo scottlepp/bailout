@@ -13,11 +13,13 @@ export class ListPage {
   bonds: Observable<any[]>;
 
   constructor(public navCtrl: NavController, af: AngularFire, public modalCtrl: ModalController) {
-    this.bonds = af.database.list('/bonds');
+    this.bonds = af.database.list('/bonds')
+    .map((arr) => { 
+      return arr.reverse(); 
+    });
   }
 
   itemTapped(event, bond) {
-    //this.navCtrl.parent.select(1);
     let modal = this.modalCtrl.create(BondPage, { bond: bond });
     modal.present();
   }
