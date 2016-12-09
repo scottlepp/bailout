@@ -16,11 +16,8 @@ export class TabsPage {
   constructor(public navCtrl: NavController) {
   }
 
-  clearBond() {
-
-  }
-
   logout() {
     this.navCtrl.setRoot(LoginPage);
   }
+  
 }

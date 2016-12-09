@@ -14,7 +14,7 @@ import * as firebase from 'firebase';
 export class BondPage {
 
   bondForm: FormGroup;
-  bond: any = {};
+  bond: any = {status: 'open'};
   editing = false;
   key: string;
 
@@ -33,7 +33,8 @@ export class BondPage {
         'county': ['', Validators.compose([Validators.required])],
         'source': ['', Validators.compose([Validators.required])],
         'indemnitor': ['', Validators.compose([Validators.required])],
-        'indPhone': ['', Validators.compose([Validators.required])]
+        'indPhone': ['', Validators.compose([Validators.required])],
+        'status': ['', Validators.compose([Validators.required])]
       })
     })
   }

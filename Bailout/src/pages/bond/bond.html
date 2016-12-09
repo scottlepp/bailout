@@ -47,6 +47,15 @@
       <ion-label fixed>Indemnitor #</ion-label>
       <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indPhone" [(ngModel)]="bond.indPhone"></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select [(ngModel)]="bond.status" [formControl]="bondForm.controls.bond.controls.status">
+        <ion-option value="open">Open</ion-option>
+        <ion-option value="sentenced">Sentenced</ion-option>
+        <ion-option value="dismissed">Dismissed</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-list>
 
   <ion-row *ngIf="!editing">
