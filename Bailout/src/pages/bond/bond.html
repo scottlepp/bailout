@@ -38,6 +38,15 @@
       <ion-input type="text" [formControl]="bondForm.controls.bond.controls.source" [(ngModel)]="bond.source"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label fixed>Indemnitor</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indemnitor" [(ngModel)]="bond.indemnitor"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Indemnitor #</ion-label>
+      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indPhone" [(ngModel)]="bond.indPhone"></ion-input>
+    </ion-item>
   </ion-list>
 
   <ion-row *ngIf="!editing">

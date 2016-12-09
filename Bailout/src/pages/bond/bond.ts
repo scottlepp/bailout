@@ -31,7 +31,9 @@ export class BondPage {
         'phone': ['', Validators.compose([Validators.required])],
         'amount': ['', Validators.compose([Validators.required])],
         'county': ['', Validators.compose([Validators.required])],
-        'source': ['', Validators.compose([Validators.required])]
+        'source': ['', Validators.compose([Validators.required])],
+        'indemnitor': ['', Validators.compose([Validators.required])],
+        'indPhone': ['', Validators.compose([Validators.required])]
       })
     })
   }

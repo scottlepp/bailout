@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+// import { StatusBar, Splashscreen } from 'ionic-native';
 import { AngularFire } from 'angularfire2';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { User } from './user.service';
 import { BondPage } from '../pages/bond/bond';
 import {Observable} from 'rxjs/Rx';
+
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
@@ -26,18 +27,18 @@ export class MyApp {
           this.af.auth.login({ email: bailoutUser.email, password: bailoutUser.pass }).then(result => {
               this.sync();
               this.rootPage = TabsPage;
-              StatusBar.styleDefault();
-              Splashscreen.hide();
+              // StatusBar.styleDefault();
+              // Splashscreen.hide();
           }, error => {
             // assume offline
             user.offline = true;
             this.rootPage = BondPage;
-            StatusBar.styleDefault();
-            Splashscreen.hide();
+            // StatusBar.styleDefault();
+            // Splashscreen.hide();
           });
         } else {
-          StatusBar.styleDefault();
-          Splashscreen.hide();
+          // StatusBar.styleDefault();
+          // Splashscreen.hide();
         }
       });
     });
@@ -52,7 +53,7 @@ export class MyApp {
           promises.push(remoteBonds.push(bond));
         });
         Observable.forkJoin(promises).subscribe(data => {
-          console.log('synced ' + data.length);
+          // console.log('synced ' + data.length);
           this.storage.remove('bailout_bonds');
         })
       }
