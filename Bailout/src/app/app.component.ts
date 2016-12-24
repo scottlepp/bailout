@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
 import { User } from './user.service';
 import { BondPage } from '../pages/bond/bond';
 import {Observable} from 'rxjs/Rx';
-
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
@@ -17,14 +17,20 @@ export class MyApp {
   // check login
   rootPage: any = LoginPage;
 
-  constructor(platform: Platform, private storage: Storage, public af: AngularFire, user: User) {
+  constructor(platform: Platform, private storage: Storage, public af: AngularFire, user: User, public loadingCtrl: LoadingController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       storage.get('bailout_user').then(bailoutUser => {
         if (bailoutUser) {
           user.name = bailoutUser.name;
+          let loader = this.loadingCtrl.create({
+            content: "Autenticating..."
+          });
+          loader.present();
+          
           this.af.auth.login({ email: bailoutUser.email, password: bailoutUser.pass }).then(result => {
+              loader.dismiss();
               this.sync();
               this.rootPage = TabsPage;
               // StatusBar.styleDefault();
@@ -47,6 +53,10 @@ export class MyApp {
   sync() {
     this.storage.get('bailout_bonds').then(bonds => {
       if (bonds !== null) {
+        let loader = this.loadingCtrl.create({
+          content: "Synchonizing..."
+        });
+        loader.present();
         let promises = [];
         let remoteBonds = this.af.database.list('/bonds');
         bonds.forEach((bond) => {
@@ -54,6 +64,7 @@ export class MyApp {
         });
         Observable.forkJoin(promises).subscribe(data => {
           // console.log('synced ' + data.length);
+          loader.dismiss();
           this.storage.remove('bailout_bonds');
         })
       }

@@ -20,12 +20,12 @@
 
     <ion-item>
       <ion-label fixed>Phone #</ion-label>
-      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.phone" [(ngModel)]="bond.phone"></ion-input>
+      <ion-input [textMask]="{mask: phoneMask}" type="text" [formControl]="bondForm.controls.bond.controls.phone" [(ngModel)]="bond.phone"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label fixed>Bond $</ion-label>
-      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.amount" [(ngModel)]="bond.amount"></ion-input>
+      <ion-input [textMask]="{mask: numberMask}" type="text" [formControl]="bondForm.controls.bond.controls.amount" [(ngModel)]="bond.amount"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -45,7 +45,7 @@
 
     <ion-item>
       <ion-label fixed>Indemnitor #</ion-label>
-      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indPhone" [(ngModel)]="bond.indPhone"></ion-input>
+      <ion-input [textMask]="{mask: phoneMask}" type="text" [formControl]="bondForm.controls.bond.controls.indPhone" [(ngModel)]="bond.indPhone"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -56,17 +56,23 @@
         <ion-option value="dismissed">Dismissed</ion-option>
       </ion-select>
     </ion-item>
+
+    <!--<ion-item>
+      <ion-label>Signature</ion-label>
+      <ion-input [(ngModel)]="bond.signature" [formControl]="bondForm.controls.bond.controls.signature" (tap)="sign($event)">
+      </ion-input>
+    </ion-item>-->
   </ion-list>
 
   <ion-row *ngIf="!editing">
     <ion-col>
-    <button type="submit" ion-button color="primary" [disabled]="!bondForm.valid" block>Save</button>
+    <button type="submit" ion-button color="primary" [disabled]="!bondForm.valid || saving" block>Save</button>
     </ion-col>
   </ion-row>
 
   <ion-row *ngIf="editing">
     <ion-col>
-    <button type="submit" ion-button color="primary" [disabled]="!bondForm.valid" block>Save</button>
+    <button type="submit" ion-button color="primary" [disabled]="!bondForm.valid || saving" block>Save</button>
     </ion-col>
     <ion-col>
     <button type="button" ion-button color="dark" outline block (click)="close($event)">Close</button>

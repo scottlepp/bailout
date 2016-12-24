@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="title">Signature</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<form form [formGroup]="signForm" (ngSubmit)="onSubmit(signForm.value)">
+
+  <ion-item>
+    <!--<ion-input [(ngModel)]="signature" [formControl]="signForm.controls.signature" (tap)="sign($event)">-->
+    <signature-pad [options]="options" (onBeginEvent)="drawBegin()" (onEndEvent)="drawComplete()"></signature-pad>
+  </ion-item>
+
+  <ion-row>
+    <ion-col>
+    <button type="submit" ion-button color="primary" block>OK</button>
+    </ion-col>
+    <ion-col>
+    <button type="button" ion-button color="dark" outline block (click)="close($event)">Cancel</button>
+    </ion-col>
+  </ion-row>
+
+</form>
+</ion-content>

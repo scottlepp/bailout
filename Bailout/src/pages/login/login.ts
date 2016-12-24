@@ -6,6 +6,7 @@ import { FormBuilder,  FormGroup, Validators, FormControl } from '@angular/forms
 import { TabsPage } from '../tabs/tabs';
 import { ToastController } from 'ionic-angular';
 import { User } from '../../app/user.service';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'page-login',
@@ -19,7 +20,7 @@ export class LoginPage {
   name: string;
   users: any;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, fb: FormBuilder, public toastCtrl: ToastController, public storage:Storage, public user:User) {
+  constructor(public navCtrl: NavController, public af: AngularFire, fb: FormBuilder, public toastCtrl: ToastController, public storage:Storage, public user:User, public loadingCtrl: LoadingController) {
     this.authForm = fb.group({  
         'username': ['', Validators.compose([Validators.required])],
         'password': ['', Validators.compose([Validators.required])]
@@ -34,7 +35,12 @@ export class LoginPage {
   }
 
   login() {
+    let loader = this.loadingCtrl.create({
+      content: "Autenticating..."
+    });
+    loader.present();
     this.af.auth.login({ email: this.username, password: this.password }).then(result => {
+      loader.dismiss();
       // this.users = this.af.database.list('/users', {
       //   query: {
       //     orderByChild: 'name',

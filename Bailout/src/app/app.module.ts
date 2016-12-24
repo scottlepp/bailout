@@ -5,10 +5,13 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { BondPage } from '../pages/bond/bond';
 import { LoginPage } from '../pages/login/login';
 import { ListPage } from '../pages/list/list';
+import { SignPage } from '../pages/sign/sign';
 import { User } from './user.service';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { Storage } from '@ionic/storage';
 import {MomentModule} from 'angular2-moment';
+import { SignaturePadModule } from 'angular2-signaturepad';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import {
     defaultFirebase,
@@ -34,12 +37,15 @@ const myFirebaseAuthConfig = {
     TabsPage,
     BondPage,
     LoginPage,
-    ListPage
+    ListPage,
+    SignPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(COMMON_CONFIG, myFirebaseAuthConfig),
-    MomentModule
+    MomentModule,
+    SignaturePadModule,
+    TextMaskModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -47,7 +53,8 @@ const myFirebaseAuthConfig = {
     TabsPage,
     BondPage,
     LoginPage,
-    ListPage
+    ListPage,
+    SignPage
   ],
   providers: [
     FIREBASE_PROVIDERS,
