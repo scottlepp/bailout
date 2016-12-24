@@ -25,7 +25,7 @@ export class MyApp {
         if (bailoutUser) {
           user.name = bailoutUser.name;
           let loader = this.loadingCtrl.create({
-            content: "Autenticating..."
+            content: "Authenticating..."
           });
           loader.present();
           

@@ -36,7 +36,7 @@ export class LoginPage {
 
   login() {
     let loader = this.loadingCtrl.create({
-      content: "Autenticating..."
+      content: "Authenticating..."
     });
     loader.present();
     this.af.auth.login({ email: this.username, password: this.password }).then(result => {
