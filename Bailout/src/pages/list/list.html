@@ -19,7 +19,8 @@
   <ion-list>
 
     <ion-item *ngFor="let bond of bonds | async" (click)="itemTapped($event, bond)">
-      <ion-label>{{bond.defendant}}</ion-label>
+      <ion-label *ngIf="bond.defendant">{{bond.defendant}}</ion-label>
+      <ion-label *ngIf="bond.defendantLast">{{bond.defendantLast}}, {{bond.defendantFirst}}</ion-label>
       <ion-label text-center>$ {{bond.amount}}</ion-label>
       <ion-label text-right class="timestamp">{{bond.localTime | amDateFormat:'MM/DD/YYYY h:mm a'}}</ion-label>
 

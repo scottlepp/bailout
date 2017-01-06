@@ -38,13 +38,17 @@ export class BondPage {
     this.bond.user = user.name;
     this.bondForm = fb.group({bond: fb.group({
         'power': ['', Validators.compose([Validators.required])],
-        'defendant': ['', Validators.compose([Validators.required])],
+        'defendantFirst': ['', Validators.compose([Validators.required])],
+        'defendantMiddle': ['', ],
+        'defendantLast': ['', Validators.compose([Validators.required])],
         'phone': ['', Validators.compose([Validators.required])],
         'amount': ['', Validators.compose([Validators.required])],
         'county': ['', Validators.compose([Validators.required])],
         'source': ['', Validators.compose([Validators.required])],
-        'indemnitor': ['', Validators.compose([Validators.required])],
-        'indPhone': ['', Validators.compose([Validators.required])],
+        'indemnitorFirst': ['', Validators.compose([Validators.required])],
+        'indemnitorMiddle': ['', ],
+        'indemnitorLast': ['', Validators.compose([Validators.required])],
+        'indPhone': ['', ],
         'status': ['', Validators.compose([Validators.required])]
         // 'signature': ['', Validators.compose([Validators.required])]
       })
@@ -71,7 +75,6 @@ export class BondPage {
       this.bond.dateCreated = firebase.database['ServerValue']['TIMESTAMP'];
       
       if (!this.user.offline) {
-
         let loader = this.loadingCtrl.create({
           content: "Saving..."
         });

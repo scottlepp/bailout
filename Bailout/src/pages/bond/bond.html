@@ -14,17 +14,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label fixed>Defendant</ion-label>
-      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.defendant" [(ngModel)]="bond.defendant"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label fixed>Phone #</ion-label>
-      <ion-input [textMask]="{mask: phoneMask}" type="text" [formControl]="bondForm.controls.bond.controls.phone" [(ngModel)]="bond.phone"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label fixed>Bond $</ion-label>
+      <ion-label fixed>Amount $</ion-label>
       <ion-input [textMask]="{mask: numberMask}" type="text" [formControl]="bondForm.controls.bond.controls.amount" [(ngModel)]="bond.amount"></ion-input>
     </ion-item>
 
@@ -38,16 +28,54 @@
       <ion-input type="text" [formControl]="bondForm.controls.bond.controls.source" [(ngModel)]="bond.source"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label fixed>Indemnitor</ion-label>
-      <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indemnitor" [(ngModel)]="bond.indemnitor"></ion-input>
-    </ion-item>
+    <ion-item-group>
+      <ion-item-divider color="light">Defendant</ion-item-divider>
 
-    <ion-item>
-      <ion-label fixed>Indemnitor #</ion-label>
-      <ion-input [textMask]="{mask: phoneMask}" type="text" [formControl]="bondForm.controls.bond.controls.indPhone" [(ngModel)]="bond.indPhone"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label fixed>First</ion-label>
+        <ion-input type="text" [formControl]="bondForm.controls.bond.controls.defendantFirst" [(ngModel)]="bond.defendantFirst"></ion-input>
+      </ion-item>
 
+      <ion-item>
+        <ion-label fixed>Middle</ion-label>
+        <ion-input type="text" [formControl]="bondForm.controls.bond.controls.defendantMiddle" [(ngModel)]="bond.defendantMiddle"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Last</ion-label>
+        <ion-input type="text" [formControl]="bondForm.controls.bond.controls.defendantLast" [(ngModel)]="bond.defendantLast"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Phone #</ion-label>
+        <ion-input [textMask]="{mask: phoneMask}" type="text" [formControl]="bondForm.controls.bond.controls.phone" [(ngModel)]="bond.phone"></ion-input>
+      </ion-item>
+
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider color="light">Indemnitor</ion-item-divider>
+      <ion-item>
+        <ion-label fixed>First</ion-label>
+        <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indemnitorFirst" [(ngModel)]="bond.indemnitorFirst"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Middle</ion-label>
+        <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indemnitorMiddle" [(ngModel)]="bond.indemnitorMiddle"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Last</ion-label>
+        <ion-input type="text" [formControl]="bondForm.controls.bond.controls.indemnitorLast" [(ngModel)]="bond.indemnitorLast"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Phone #</ion-label>
+        <ion-input [textMask]="{mask: phoneMask}" type="text" [formControl]="bondForm.controls.bond.controls.indPhone" [(ngModel)]="bond.indPhone"></ion-input>
+      </ion-item>
+
+    </ion-item-group>
     <ion-item>
       <ion-label>Status</ion-label>
       <ion-select [(ngModel)]="bond.status" [formControl]="bondForm.controls.bond.controls.status">
