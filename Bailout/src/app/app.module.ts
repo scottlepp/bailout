@@ -12,6 +12,7 @@ import { Storage } from '@ionic/storage';
 import {MomentModule} from 'angular2-moment';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { TextMaskModule } from 'angular2-text-mask';
+import { Sync } from './sync.service';
 
 import {
     defaultFirebase,
@@ -60,7 +61,8 @@ const myFirebaseAuthConfig = {
     FIREBASE_PROVIDERS,
     defaultFirebase(COMMON_CONFIG),
     User,
-    Storage
+    Storage,
+    Sync
   ]
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ import { ModalController } from 'ionic-angular';
 import { SignPage } from '../sign/sign';
 import { LoadingController } from 'ionic-angular';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask.js'
+import { Sync } from '../../app/sync.service';
 
 @Component({
   selector: 'page-bond',
@@ -29,7 +30,7 @@ export class BondPage {
 
   phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
-  constructor(public navCtrl: NavController, public af: AngularFire, fb: FormBuilder, public toastCtrl: ToastController, params: NavParams, public viewCtrl: ViewController, public user: User, public storage: Storage, public modalCtrl: ModalController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public af: AngularFire, fb: FormBuilder, public toastCtrl: ToastController, params: NavParams, public viewCtrl: ViewController, public user: User, public storage: Storage, public modalCtrl: ModalController, public loadingCtrl: LoadingController, private sync: Sync) {
     if (params.get('bond')) {
       this.bond = params.get('bond');
       this.key = this.bond.$key;
@@ -56,6 +57,10 @@ export class BondPage {
     
     let connected = af.database.object(".info/connected");
     this.connectSubscription = connected.subscribe(resp => {
+      if (this.user.offline === true && resp.$value === true) {
+        // reconnected - sync up anything stored offline
+        this.sync.execute();
+      }
       this.user.offline = !resp.$value;
     });
   }
@@ -70,7 +75,12 @@ export class BondPage {
       this.saving = true;
       this.bond.amount = this.bond.amount.replace(/\W/g, '');
       this.bond.phone = this.bond.phone.replace(/\W/g, '');
+      // this.bond.phone = this.bond.phone.replace(/_/g, '');
+      this.bond.phone = this.bond.phone.substring(0, 10);
+
       this.bond.indPhone = this.bond.indPhone.replace(/\W/g, '');
+      // this.bond.indPhone = this.bond.indPhone.replace(/_/g, '');
+      this.bond.indPhone = this.bond.indPhone.substring(0, 10);
       this.bond.localTime = new Date().getTime();
       this.bond.dateCreated = firebase.database['ServerValue']['TIMESTAMP'];
       

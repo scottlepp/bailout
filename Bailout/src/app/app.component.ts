@@ -7,8 +7,8 @@ import { LoginPage } from '../pages/login/login';
 import { Storage } from '@ionic/storage';
 import { User } from './user.service';
 import { BondPage } from '../pages/bond/bond';
-import {Observable} from 'rxjs/Rx';
 import { LoadingController } from 'ionic-angular';
+import { Sync } from './sync.service';
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
@@ -17,7 +17,7 @@ export class MyApp {
   // check login
   rootPage: any = LoginPage;
 
-  constructor(platform: Platform, private storage: Storage, public af: AngularFire, user: User, public loadingCtrl: LoadingController) {
+  constructor(platform: Platform, private storage: Storage, public af: AngularFire, user: User, public loadingCtrl: LoadingController, private sync: Sync) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -31,12 +31,13 @@ export class MyApp {
           
           this.af.auth.login({ email: bailoutUser.email, password: bailoutUser.pass }).then(result => {
               loader.dismiss();
-              this.sync();
+              this.sync.execute();
               this.rootPage = TabsPage;
               // StatusBar.styleDefault();
               // Splashscreen.hide();
           }, error => {
             // assume offline
+            loader.dismiss();
             user.offline = true;
             this.rootPage = BondPage;
             // StatusBar.styleDefault();
@@ -48,26 +49,5 @@ export class MyApp {
         }
       });
     });
-  }
-
-  sync() {
-    this.storage.get('bailout_bonds').then(bonds => {
-      if (bonds !== null) {
-        let loader = this.loadingCtrl.create({
-          content: "Synchonizing..."
-        });
-        loader.present();
-        let promises = [];
-        let remoteBonds = this.af.database.list('/bonds');
-        bonds.forEach((bond) => {
-          promises.push(remoteBonds.push(bond));
-        });
-        Observable.forkJoin(promises).subscribe(data => {
-          // console.log('synced ' + data.length);
-          loader.dismiss();
-          this.storage.remove('bailout_bonds');
-        })
-      }
-    })
   }
 }
