@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AngularFire } from 'angularfire2';
-import { FormBuilder,  FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import { TabsPage } from '../tabs/tabs';
 import { ToastController } from 'ionic-angular';
 import { User } from '../../app/user.service';
@@ -25,6 +25,11 @@ export class LoginPage {
         'username': ['', Validators.compose([Validators.required])],
         'password': ['', Validators.compose([Validators.required])]
         // 'name': ['', Validators.compose([Validators.required])]
+    });
+    storage.get('bailout_user').then(bailoutUser => {
+      if (bailoutUser) {
+        this.username = bailoutUser.name;
+      }
     });
   }
 
@@ -61,6 +66,7 @@ export class LoginPage {
 
     }, error => {
       console.log(error);
+      loader.dismiss();
       this.showToast('Invalid email or password');
     });
   }
