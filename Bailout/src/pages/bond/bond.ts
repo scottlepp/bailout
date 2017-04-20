@@ -24,7 +24,7 @@ export class BondPage {
   key: string;
   saving = false;
   connectSubscription;
-
+  
   numberMask = createNumberMask({
   });
 
@@ -82,7 +82,9 @@ export class BondPage {
       // this.bond.indPhone = this.bond.indPhone.replace(/_/g, '');
       this.bond.indPhone = this.bond.indPhone.substring(0, 10);
       this.bond.localTime = new Date().getTime();
-      this.bond.dateCreated = firebase.database['ServerValue']['TIMESTAMP'];
+      if (!this.editing) {
+        this.bond.dateCreated = firebase.database['ServerValue']['TIMESTAMP'];
+      }
       
       if (!this.user.offline) {
         let loader = this.loadingCtrl.create({
