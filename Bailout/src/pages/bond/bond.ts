@@ -24,7 +24,6 @@ export class BondPage {
   key: string;
   saving = false;
   connectSubscription;
-  
   numberMask = createNumberMask({
   });
 

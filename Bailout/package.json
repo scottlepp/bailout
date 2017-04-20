@@ -20,7 +20,7 @@
     "@ionic/storage": "1.1.6",
     "angular2-moment": "^1.0.0-beta.rc.1",
     "angular2-signaturepad": "^2.1.0",
-    "angular2-text-mask": "^2.1.0",
+    "angular2-text-mask": "^8.0.0",
     "angularfire2": "^2.0.0-beta.6",
     "firebase": "^3.6.1",
     "ionic-angular": "2.0.0-rc.3",
