@@ -35,6 +35,9 @@ export class ListPage {
     // show only this months items
     let startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     let endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
+    
     this.start.next(startDate.getTime());
     this.end.next(endDate.getTime());
   }
