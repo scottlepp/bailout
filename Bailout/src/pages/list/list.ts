@@ -31,7 +31,6 @@ export class ListPage {
 
   ionViewWillEnter() {
     let today = new Date();
-    
     // show only this months items
     let startDate = new Date(today.getFullYear(), today.getMonth(), 1);
     let endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);

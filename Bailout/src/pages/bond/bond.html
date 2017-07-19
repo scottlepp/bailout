@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-<form form [formGroup]="bondForm" (ngSubmit)="onSubmit(bondForm.value)">
+<form form [formGroup]="bondForm" (ngSubmit)="onSubmit(bondForm.value)" *ngIf="showForm">
   <ion-list>
 
     <ion-item>
@@ -76,6 +76,10 @@
       </ion-item>
 
     </ion-item-group>
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="bond.date" [formControl]="bondForm.controls.bond.controls.date"></ion-datetime>
+    </ion-item>
     <ion-item>
       <ion-label>Status</ion-label>
       <ion-select [(ngModel)]="bond.status" [formControl]="bondForm.controls.bond.controls.status">

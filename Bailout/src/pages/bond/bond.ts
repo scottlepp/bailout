@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { AngularFire} from 'angularfire2';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
 import { User } from '../../app/user.service';
 import { Storage } from '@ionic/storage';
@@ -26,6 +26,8 @@ export class BondPage {
   connectSubscription;
   numberMask = createNumberMask({
   });
+  today = new Date();
+  showForm = true;
 
   phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
@@ -36,6 +38,10 @@ export class BondPage {
       this.editing = true;
     }
     this.bond.user = user.name;
+    if (!this.editing) {
+      this.bond.status = 'open';
+      this.bond.date = this.today.toISOString();
+    }
     this.bondForm = fb.group({bond: fb.group({
         'power': ['', Validators.compose([Validators.required])],
         'defendantFirst': ['', Validators.compose([Validators.required])],
@@ -49,11 +55,12 @@ export class BondPage {
         'indemnitorMiddle': ['', ],
         'indemnitorLast': ['', Validators.compose([Validators.required])],
         'indPhone': ['', ],
+        'date': ['', ],
         'status': ['', Validators.compose([Validators.required])]
         // 'signature': ['', Validators.compose([Validators.required])]
       })
     })
-    
+
     let connected = af.database.object(".info/connected");
     this.connectSubscription = connected.subscribe(resp => {
       if (this.user.offline === true && resp.$value === true) {
@@ -62,6 +69,13 @@ export class BondPage {
       }
       this.user.offline = !resp.$value;
     });
+  }
+
+  ionViewWillEnter() {
+    if (!this.editing) {
+      this.bond.date = this.today.toISOString();
+      this.bond.status = 'open';
+    }
   }
 
   close(event) {
@@ -80,9 +94,21 @@ export class BondPage {
       this.bond.indPhone = this.bond.indPhone.replace(/\W/g, '');
       // this.bond.indPhone = this.bond.indPhone.replace(/_/g, '');
       this.bond.indPhone = this.bond.indPhone.substring(0, 10);
+
       this.bond.localTime = new Date().getTime();
       if (!this.editing) {
         this.bond.dateCreated = firebase.database['ServerValue']['TIMESTAMP'];
+      }
+
+      if (this.bond.date !== undefined) {
+        let dateParts = this.bond.date.split('T');
+        let localTime = new Date().toISOString();
+        let localDateParts = localTime.split('T');
+        let easternDate = dateParts[0] + 'T' + localDateParts[1];
+        let formDate = new Date(easternDate);
+        if (this.today.getFullYear() !== formDate.getFullYear() || this.today.getMonth() !== formDate.getMonth() || this.today.getDate() !== formDate.getDate()) {
+          this.bond.dateCreated = formDate.getTime();
+        }
       }
       
       if (!this.user.offline) {
@@ -101,16 +127,22 @@ export class BondPage {
             this.showToast();
           });
         } else {
+          this.showForm = false;
           bonds.push(this.bond).then(() => {
             loader.dismiss();
             this.showToast();
-            this.bond = {user:this.user.name, status:'open'};
-            this.bondForm.reset();
+            this.bond = {user:this.user.name, status:'open', date: this.today.toISOString()};
+            this.bondForm.reset(this.bond);
+            setTimeout(() => {
+              this.showForm = true;
+            });
+
             this.saving = false;
           });
         }
         
       } else {  // offline
+        this.showForm = false;
         this.storage.get('bailout_bonds').then(bonds => {
           if (bonds === null) {
             bonds = [];
@@ -118,8 +150,11 @@ export class BondPage {
           bonds.push(this.bond);
           this.storage.set('bailout_bonds', bonds);
           this.showToast();
-          this.bond = {user:this.user.name, status:'open'};
-          this.bondForm.reset();
+          this.bond = {user:this.user.name, status:'open', date: this.today.toISOString()};
+          this.bondForm.reset(this.bond);
+          setTimeout(() => {
+            this.showForm = true;
+          });
           this.saving = false;
         });
       }
@@ -137,6 +172,10 @@ export class BondPage {
           duration: 3000
         });
     toast.present();
+  }
+
+  private padDigits(number, digits) {
+    return Array(Math.max(digits - String(number).length + 1, 0)).join('0') + number;
   }
 
 }
