@@ -40,7 +40,9 @@ export class BondPage {
     this.bond.user = user.name;
     if (!this.editing) {
       this.bond.status = 'open';
-      this.bond.date = this.today.toISOString();
+      var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+      var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
+      this.bond.date = localISOTime;
     }
     this.bondForm = fb.group({bond: fb.group({
         'power': ['', Validators.compose([Validators.required])],
@@ -73,7 +75,9 @@ export class BondPage {
 
   ionViewWillEnter() {
     if (!this.editing) {
-      this.bond.date = this.today.toISOString();
+      var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+      var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
+      this.bond.date = localISOTime;
       this.bond.status = 'open';
     }
   }
@@ -102,7 +106,9 @@ export class BondPage {
 
       if (this.bond.date !== undefined) {
         let dateParts = this.bond.date.split('T');
-        let localTime = new Date().toISOString();
+        // let localTime = new Date().toISOString();
+        var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        var localTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
         let localDateParts = localTime.split('T');
         let easternDate = dateParts[0] + 'T' + localDateParts[1];
         let formDate = new Date(easternDate);

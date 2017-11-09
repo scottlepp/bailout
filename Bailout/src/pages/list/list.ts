@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { NavController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { BondPage } from '../bond/bond';
+import "rxjs/add/operator/map";
 
 @Component({
   selector: 'page-list',
